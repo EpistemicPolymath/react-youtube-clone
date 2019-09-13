@@ -9,6 +9,10 @@ import youtube from './api/youtube'; // Youtube API
 import env from './env.json';
 
 class App extends React.Component {
+    state = {
+        videos: [],
+        selectedVideo: null
+    }
 
     handleSubmit = async (searchTerm) => { // Needs to be asynchronous because it will wait for a response from the Youtube API
         // Axios Instance of Fetch
@@ -16,13 +20,17 @@ class App extends React.Component {
             params: {
                 part: 'snippet',
                 maxResults: 5,
+                type: 'video',
                 key: env['keyAPI'],
-                q: searchTerm
+                q: searchTerm // q stands for query
             }
-        }); // Parameters: { query: searchTerm }
-        console.log(response);
+        }); // We can use the response from the Youtube API to set our state object property values + send it to our VideoDetail Component
+        this.setState({ videos: response.data.items, selectedVideo: response.data.items[0] });
+        console.log(response.data.items);
+        console.log(response.data.items[0].id.videoId);
     }
     render (){
+        const { selectedVideo } = this.state; // Destructuring
         return (
             <Grid justify="center" container spacing={10}>
                 <Grid item xs={12}>
@@ -31,7 +39,7 @@ class App extends React.Component {
                             <SearchBar onFormSubmit={this.handleSubmit} />
                         </Grid>
                         <Grid item xs={8}>
-                            <VideoDetail />
+                            <VideoDetail video={selectedVideo}/>
                         </Grid>
                         <Grid item xs={4}>
                             {/* Video List */}
