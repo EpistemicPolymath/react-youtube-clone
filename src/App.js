@@ -3,7 +3,7 @@ import React from 'react';
 import { Grid } from '@material-ui/core'; // The brackets mean that it is not a 'default' export
 
 // import { SearchBar, VideoList, VideoDetail } from './components';
-import { SearchBar, VideoDetail } from './components'; // You do not have to specify index files in React
+import { SearchBar, VideoDetail, VideoList } from './components'; // You do not have to specify index files in React
 
 import youtube from './api/youtube'; // Youtube API
 import env from './env.json';
@@ -26,11 +26,9 @@ class App extends React.Component {
             }
         }); // We can use the response from the Youtube API to set our state object property values + send it to our VideoDetail Component
         this.setState({ videos: response.data.items, selectedVideo: response.data.items[0] });
-        console.log(response.data.items);
-        console.log(response.data.items[0].id.videoId);
     }
     render (){
-        const { selectedVideo } = this.state; // Destructuring
+        const { selectedVideo, videos } = this.state; // Destructuring
         return (
             <Grid justify="center" container spacing={10}>
                 <Grid item xs={12}>
@@ -42,7 +40,7 @@ class App extends React.Component {
                             <VideoDetail video={selectedVideo}/>
                         </Grid>
                         <Grid item xs={4}>
-                            {/* Video List */}
+                            <VideoList videos={videos}/>
                         </Grid>
                     </Grid>
                 </Grid>
