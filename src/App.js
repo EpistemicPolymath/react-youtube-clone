@@ -14,6 +14,12 @@ class App extends React.Component {
         selectedVideo: null
     }
 
+    // Lifecyle Method - Everything run in this method will be run immeditaly after the class component loads
+    componentDidMount() {
+        // Set a default search term so that the app isn't empty upon refresh. 
+        this.handleSubmit('JavaScript Fundamentals');
+    }
+
     onVideoSelect = (video) => {
         this.setState({selectedVideo: video});
     }
@@ -25,6 +31,7 @@ class App extends React.Component {
                 part: 'snippet',
                 maxResults: 5,
                 type: 'video',
+                videoDefinition: 'high',
                 key: env['keyAPI'],
                 q: searchTerm // q stands for query
             }
