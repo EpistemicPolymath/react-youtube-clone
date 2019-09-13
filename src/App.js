@@ -14,6 +14,10 @@ class App extends React.Component {
         selectedVideo: null
     }
 
+    onVideoSelect = (video) => {
+        this.setState({selectedVideo: video});
+    }
+
     handleSubmit = async (searchTerm) => { // Needs to be asynchronous because it will wait for a response from the Youtube API
         // Axios Instance of Fetch
         const response = await youtube.get('search', { 
@@ -40,7 +44,7 @@ class App extends React.Component {
                             <VideoDetail video={selectedVideo}/>
                         </Grid>
                         <Grid item xs={4}>
-                            <VideoList videos={videos}/>
+                            <VideoList videos={videos} onVideoSelect={this.onVideoSelect}/>
                         </Grid>
                     </Grid>
                 </Grid>
